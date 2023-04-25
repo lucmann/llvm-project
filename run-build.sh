@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-
+#
+# Refer to https://llvm.org/docs/CMake.html
+#
 # set -x
 
 INSTALL_DIR=${INSTALL_DIR:-$HOME/.local}
@@ -21,14 +23,14 @@ cmake -S llvm -B build -G Ninja                                     \
   -DCMAKE_INSTALL_PREFIX="$INSTALL_DIR"                             \
   -DCMAKE_CXX_COMPILER_LAUNCHER="ccache"                            \
   -DLLVM_LIBDIR_SUFFIX="64"                                         \
-  -DLLVM_TARGETS_TO_BUILD="host"                                    \
   -DLLVM_BUILD_LLVM_DYLIB="ON"                                      \
   -DBUILD_SHARED_LIBS="ON"                                          \
   -DLLVM_USE_LINKER="gold"                                          \
   -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld"              \
   -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind"               \
   -DLLVM_PARALLEL_COMPILE_JOBS="1"                                  \
-  -DLLVM_PARALLEL_LINK_JOBS="1"
+  -DLLVM_PARALLEL_LINK_JOBS="1"                                     \
+  -DLLVM_TARGETS_TO_BUILD="host;AMDGPU"
 
 build_runtimes() {
     ninja -C build runtimes
